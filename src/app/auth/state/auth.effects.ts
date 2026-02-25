@@ -1,7 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from '../../services/auth.service';
-import { loginStartAction, loginSuccessAction } from './auth.actions';
+import {
+  loginStartAction,
+  loginSuccessAction,
+  signupStartAction,
+  signupSuccessAction,
+} from './auth.actions';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { IResult } from '../../models/api.response.model';
 import { IAuthResponseData } from '../../models/auth-response.model';
@@ -44,7 +49,7 @@ export class AuthEffects {
   loginRedirect$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(loginSuccessAction),
+        ofType(...[loginSuccessAction, signupSuccessAction]),
         tap((action) => {
           this._router.navigate(['/']);
         }),
@@ -52,4 +57,29 @@ export class AuthEffects {
     },
     { dispatch: false },
   );
+
+  signup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(signupStartAction),
+      exhaustMap((action) => {
+        return this.authService.signup(action.name, action.email, action.password).pipe(
+          map((data: IResult<any>) => {
+            // set loading spinner and error to be false
+            this._store.dispatch(setLoadingSpinner({ status: false }));
+            this._store.dispatch(setErrorMessage({ message: '' }));
+            // handle the response
+            this._store.dispatch(
+              loginStartAction({ email: action.email, password: action.password }),
+            );
+            return signupSuccessAction({ register: data.data });
+          }),
+          catchError((error) => {
+            console.log(error.error.message);
+            this._store.dispatch(setLoadingSpinner({ status: false }));
+            return of(setErrorMessage({ message: error.error.message }));
+          }),
+        );
+      }),
+    );
+  });
 }

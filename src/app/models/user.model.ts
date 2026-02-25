@@ -5,3 +5,11 @@ export class User {
     private tokenExpiresAt: number,
   ) {}
 }
+
+export class Register {
+  constructor(
+    private email: string,
+    private name: string,
+    private role: string,
+  ) {}
+}

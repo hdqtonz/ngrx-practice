@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h3>Sing Up</h3>
+      <hr />
+      <form [formGroup]="signupForm" (ngSubmit)="onSignUp()">
+        <div class="mb-3">
+          <label for="">Name</label>
+          <input type="text" class="form-control" formControlName="name" />
+          @if (signupForm.get('name').touched && signupForm.get('name').hasError('required')) {
+            <small>Name is Required</small>
+          }
+        </div>
+        <div class="mb-3">
+          <label for="">Email</label>
+          <input type="email" class="form-control" formControlName="email" />
+          @if (signupForm.get('email').touched && signupForm.get('email').invalid) {
+            @if (signupForm.get('email').hasError('required')) {
+              <small>Email is required</small>
+            }
+            @if (signupForm.get('email').hasError('email')) {
+              <small>Email is not valid</small>
+            }
+          }
+        </div>
+        <div class="mb-3">
+          <label for="">Password</label>
+          <input type="text" class="form-control" formControlName="password" />
+          @if (signupForm.get('password').touched && signupForm.get('password').invalid) {
+            @if (signupForm.get('password').hasError('required')) {
+              <small>Password is required</small>
+            }
+            @if (signupForm.get('password').hasError('pattern')) {
+              <small>Password is not valid</small>
+            }
+          }
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-primary" type="submit" [disabled]="signupForm.invalid">
+            Sign Up
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

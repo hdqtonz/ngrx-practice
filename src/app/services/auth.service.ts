@@ -18,6 +18,14 @@ export class AuthService {
     });
   }
 
+  signup(name: string, email: string, password: string): Observable<IResult> {
+    return this._http.post<IResult>(`http://localhost:5000/api/v1/auth/register`, {
+      name,
+      email,
+      password,
+    });
+  }
+
   formatUser(data: IAuthResponseData) {
     const expirationDate = data.accessTokenExpiresAt + 60 * 1000;
     const user = new User(data.email, data.accessToken, expirationDate);
