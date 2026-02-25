@@ -4,6 +4,10 @@ export class User {
     private token: string,
     private tokenExpiresAt: number,
   ) {}
+
+  get expireAt() {
+    return this.tokenExpiresAt;
+  }
 }
 
 export class Register {

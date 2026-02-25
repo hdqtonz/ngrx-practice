@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withFetch()),
     provideStore(RootReducer),
-    provideEffects([]),
+    provideEffects([AuthEffects]),
     provideStoreDevtools({ logOnly: false }),
   ],
 };

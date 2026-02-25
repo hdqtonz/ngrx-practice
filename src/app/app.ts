@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectErrorMessage, selectLoading } from './_store/shared/shared.selector';
 import { AsyncPipe } from '@angular/common';
+import { autoLoginAction } from './auth/state/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -24,5 +25,8 @@ export class App implements OnInit {
   ngOnInit(): void {
     this.showLoading = this._store.select(selectLoading);
     this.showError = this._store.select(selectErrorMessage);
+
+    // auto login
+    this._store.dispatch(autoLoginAction());
   }
 }

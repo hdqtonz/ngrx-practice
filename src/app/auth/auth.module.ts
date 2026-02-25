@@ -8,7 +8,7 @@ import { Signup } from './signup/signup';
 const routes: Routes = [
   {
     path: '',
-    providers: [provideEffects([AuthEffects])],
+    providers: [provideEffects()],
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: Login },
