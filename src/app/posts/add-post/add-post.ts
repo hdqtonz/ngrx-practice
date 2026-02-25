@@ -31,7 +31,7 @@ export class AddPost implements OnInit {
 
     const post: Posts = {
       title: this.form.value.title,
-      description: this.form.value.description,
+      body: this.form.value.description,
     };
 
     this._store.dispatch(addPostAction({ post }));

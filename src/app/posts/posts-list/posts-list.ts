@@ -6,7 +6,7 @@ import { Posts } from '../../models/posts.model';
 import { selectPosts } from '../state/posts.selectors';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { deletePostAction } from '../state/posts.action';
+import { deletePostAction, loadPostAction } from '../state/posts.action';
 
 @Component({
   selector: 'app-posts-list',
@@ -22,10 +22,11 @@ export class PostsList implements OnInit {
   public posts$: Observable<Posts[]>;
 
   ngOnInit(): void {
+    this._store.dispatch(loadPostAction());
     this.posts$ = this._store.select(selectPosts);
   }
 
-  onDeletePost(id: string) {
+  onDeletePost(id: number) {
     if (confirm('Are you sure you want to delete the post')) {
       this._store.dispatch(deletePostAction({ id }));
     }

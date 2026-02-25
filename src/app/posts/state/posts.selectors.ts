@@ -9,7 +9,7 @@ export const selectPosts = createSelector(selectPostsState, (state) => {
   return state.posts;
 });
 
-export const selectPostById = (id: string) => {
+export const selectPostById = (id: number) => {
   return createSelector(selectPostsState, (state) => {
     return state.posts.find((e) => e.id == id);
   });

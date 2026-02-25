@@ -23,7 +23,7 @@
             <tr>
               <td>{{ $index + 1 }}</td>
               <td>{{ item.title }}</td>
-              <td>{{ item.description }}</td>
+              <td>{{ item.body }}</td>
               <td>
                 <a class="btn btn-primary" [routerLink]="['edit', item.id]">Update</a>&nbsp;
                 <a class="btn btn-danger" (click)="onDeletePost(item.id)">Delete</a>

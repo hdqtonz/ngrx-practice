@@ -22,7 +22,7 @@ export class EditPost implements OnInit, OnDestroy {
 
   public form: FormGroup;
   public post: Posts;
-  public postId: string;
+  public postId: number;
   public postSubscription: Subscription;
 
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class EditPost implements OnInit, OnDestroy {
   fetchEditDetail() {
     // get post id
     this._route.paramMap.subscribe((params) => {
-      this.postId = params.get('id');
+      this.postId = Number(params.get('id'));
 
       this.postSubscription = this._store.select(selectPostById(this.postId)).subscribe((data) => {
         if (!data) return;
@@ -61,7 +61,7 @@ export class EditPost implements OnInit, OnDestroy {
   setFormValue() {
     this.form.patchValue({
       title: this.post.title,
-      description: this.post.description,
+      description: this.post.body,
     });
   }
 
@@ -77,7 +77,7 @@ export class EditPost implements OnInit, OnDestroy {
     const post: Posts = {
       id: this.postId,
       title: title,
-      description: description,
+      body: description,
     };
 
     // dispatch the action for update

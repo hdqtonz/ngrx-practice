@@ -6,12 +6,14 @@ import { EditPost } from './edit-post/edit-post';
 import { provideState, StoreModule } from '@ngrx/store';
 import { postsReducer } from './state/posts.reducer';
 import { POST_STATE_NAME } from './state/posts.selectors';
+import { provideEffects } from '@ngrx/effects';
+import { postsEffects } from './state/posts.effects';
 
 const routes: Routes = [
   {
     path: '',
     component: PostsList,
-    providers: [provideState(POST_STATE_NAME, postsReducer)],
+    providers: [provideState(POST_STATE_NAME, postsReducer), provideEffects([postsEffects])],
     children: [
       { path: 'add', component: AddPost },
       { path: 'edit/:id', component: EditPost },
