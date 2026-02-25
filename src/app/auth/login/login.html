@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <h3>Login</h3>
+    <hr />
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="mb-3">
+        <label for="">Email</label>
+        <input formControlName="email" class="form-control" type="email" />
+        @if (loginForm.controls['email'].touched && loginForm.controls['email'].invalid) {
+          @if (loginForm.controls['email'].hasError('required')) {
+            <small>Email Is required</small>
+          }
+          @if (loginForm.controls['email'].hasError('email')) {
+            <small>Email is not valid</small>
+          }
+        }
+      </div>
+      <div class="mb-3">
+        <label for="">Passowrd</label>
+        <input formControlName="password" class="form-control" type="password" />
+        @if (
+          loginForm.controls['password'].touched &&
+          loginForm.controls['password'].hasError('required')
+        ) {
+          <small>Password is not valid</small>
+        }
+      </div>
+      <div class="mb-3">
+        <button [disabled]="loginForm.invalid" class="btn btn-primary" type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+</div>

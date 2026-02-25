@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-md-8">
+    <h3>Post List</h3>
+
+    <div>
+      <a class="btn btn-primary" [routerLink]="['/posts/add']">Add Post</a>
+    </div>
+
+    @let postData = posts$ | async;
+
+    @if (postData) {
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of postData; track $index) {
+            <tr>
+              <td>{{ $index + 1 }}</td>
+              <td>{{ item.title }}</td>
+              <td>{{ item.description }}</td>
+              <td>
+                <a class="btn btn-primary" [routerLink]="['edit', item.id]">Update</a>&nbsp;
+                <a class="btn btn-danger" (click)="onDeletePost(item.id)">Delete</a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+  <div class="col-md-4">
+    <router-outlet />
+  </div>
+</div>
