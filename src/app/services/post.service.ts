@@ -21,4 +21,26 @@ export class PostService {
       }),
     );
   }
+
+  addPost(post: Posts): Observable<Posts> {
+    return this._http.post<Posts>(`https://jsonplaceholder.typicode.com/posts`, post).pipe(
+      map((data) => {
+        return { id: data.id, title: data.title, body: data.body };
+      }),
+    );
+  }
+
+  updatePost(post: Posts): Observable<Posts> {
+    return this._http
+      .put<Posts>(`https://jsonplaceholder.typicode.com/posts/${post.id}`, post)
+      .pipe(
+        map((data) => {
+          return { id: data.id, title: data.title, body: data.body };
+        }),
+      );
+  }
+
+  deletePost(id: number | string): Observable<any> {
+    return this._http.delete(`https://jsonplaceholder.typicode.com/posts/${id}`);
+  }
 }

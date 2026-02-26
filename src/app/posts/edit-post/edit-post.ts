@@ -53,7 +53,6 @@ export class EditPost implements OnInit, OnDestroy {
 
         this.post = data;
         this.setFormValue();
-        console.log(this.post, 'this.post');
       });
     });
   }
@@ -78,6 +77,7 @@ export class EditPost implements OnInit, OnDestroy {
       id: this.postId,
       title: title,
       body: description,
+      userId: this.post.userId,
     };
 
     // dispatch the action for update
