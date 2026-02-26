@@ -104,7 +104,7 @@ export class postsEffects {
       switchMap((id) => {
         return this.postService.fetchPostById(id).pipe(
           map((post) => {
-            const postData = [{ ...post }];
+            const postData = [{ ...post, id }];
             return loadPostSuccessAction({ posts: postData });
           }),
         );
