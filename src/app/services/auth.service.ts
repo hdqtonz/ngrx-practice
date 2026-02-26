@@ -105,7 +105,7 @@ export class AuthService {
 
   logout() {
     this.apiLogout().subscribe({
-      complete: () => {
+      next: () => {
         localStorage.removeItem('userData');
         this.currentUser$.next(null);
       },

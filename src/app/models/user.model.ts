@@ -8,6 +8,10 @@ export class User {
   get expireAt() {
     return this.tokenExpiresAt;
   }
+
+  get userToken() {
+    return this.token;
+  }
 }
 
 export class Register {

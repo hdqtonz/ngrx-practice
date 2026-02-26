@@ -10,15 +10,16 @@ import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { RootReducer } from './_store/app.state';
 import { provideEffects } from '@ngrx/effects';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { AuthEffects } from './auth/state/auth.effects';
+import { authInterceptor } from './interceptor/auth-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideStore(RootReducer),
     provideEffects([AuthEffects]),
     provideStoreDevtools({ logOnly: false }),
