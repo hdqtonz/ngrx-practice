@@ -12,5 +12,10 @@ export const routes: Routes = [
     loadChildren: () => import('./posts/posts.module').then((m) => m.PostsModule),
     canActivate: [authGuard],
   },
+  {
+    path: 'posts/details/:id',
+    loadComponent: () => import('./posts/single-post/single-post').then((c) => c.SinglePost),
+    canActivate: [authGuard],
+  },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
 ];

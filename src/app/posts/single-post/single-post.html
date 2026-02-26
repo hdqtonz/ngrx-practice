@@ -1,0 +1,13 @@
+<div>
+  <h3>Post Details</h3>
+</div>
+@if (post | async; as postData) {
+  <div>
+    <div><b>Id: </b> {{ postData.id }}</div>
+    <div><b>Title: </b>{{ postData.title }}</div>
+    <div><b>Body: </b>{{ postData.body }}</div>
+  </div>
+}
+<div>
+  <a [routerLink]="['/posts']">Back to Posts</a>
+</div>

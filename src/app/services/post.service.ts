@@ -43,4 +43,8 @@ export class PostService {
   deletePost(id: number | string): Observable<any> {
     return this._http.delete(`https://jsonplaceholder.typicode.com/posts/${id}`);
   }
+
+  fetchPostById(id: number | string): Observable<any> {
+    return this._http.get(`https://jsonplaceholder.typicode.com/posts/${id}`);
+  }
 }

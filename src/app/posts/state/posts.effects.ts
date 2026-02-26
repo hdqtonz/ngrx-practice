@@ -11,9 +11,10 @@ import {
   updatePostAction,
   updatePostSuccessAction,
 } from './posts.action';
-import { map, mergeMap, of } from 'rxjs';
+import { filter, map, mergeMap, switchMap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { ROUTER_NAVIGATION, RouterNavigatedAction } from '@ngrx/router-store';
 
 @Injectable()
 export class postsEffects {
@@ -90,4 +91,24 @@ export class postsEffects {
     },
     { dispatch: false },
   );
+
+  getSinglePost$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATION),
+      filter((r: RouterNavigatedAction) => {
+        return r.payload.routerState.url.startsWith('/posts/details');
+      }),
+      map((r: RouterNavigatedAction) => {
+        return r.payload.routerState['params']['id'];
+      }),
+      switchMap((id) => {
+        return this.postService.fetchPostById(id).pipe(
+          map((post) => {
+            const postData = [{ ...post }];
+            return loadPostSuccessAction({ posts: postData });
+          }),
+        );
+      }),
+    );
+  });
 }

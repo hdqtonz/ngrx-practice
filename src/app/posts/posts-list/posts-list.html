@@ -26,7 +26,8 @@
               <td>{{ item.body }}</td>
               <td>
                 <a class="btn btn-primary" [routerLink]="['edit', item.id]">Update</a>&nbsp;
-                <a class="btn btn-danger" (click)="onDeletePost(item.id)">Delete</a>
+                <a class="btn btn-danger" (click)="onDeletePost(item.id)">Delete</a>&nbsp;
+                <a class="btn btn-info" [routerLink]="['details', item.id]">Details</a>
               </td>
             </tr>
           }
