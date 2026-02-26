@@ -13,6 +13,8 @@ import { provideEffects } from '@ngrx/effects';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { AuthEffects } from './auth/state/auth.effects';
 import { authInterceptor } from './interceptor/auth-interceptor';
+import { provideRouterStore } from '@ngrx/router-store';
+import { CustomSerializer } from './_store/router/custom-route-serializer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,5 +25,6 @@ export const appConfig: ApplicationConfig = {
     provideStore(RootReducer),
     provideEffects([AuthEffects]),
     provideStoreDevtools({ logOnly: false }),
+    provideRouterStore({ serializer: CustomSerializer }),
   ],
 };

@@ -13,12 +13,14 @@ import {
 } from './posts.action';
 import { map, mergeMap, of } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class postsEffects {
   private actions$ = inject(Actions);
   private _store = inject(Store);
   private postService = inject(PostService);
+  private _router = inject(Router);
 
   loadPost$ = createEffect(() => {
     return this.actions$.pipe(
@@ -75,4 +77,17 @@ export class postsEffects {
       }),
     );
   });
+
+  updateSuccessRedirect$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(updatePostSuccessAction),
+        map((action) => {
+          console.log(action.post, 'update post success effect');
+          this._router.navigate(['posts']);
+        }),
+      );
+    },
+    { dispatch: false },
+  );
 }

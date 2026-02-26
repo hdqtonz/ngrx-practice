@@ -15,14 +15,11 @@ import { updatePostAction } from '../state/posts.action';
 })
 export class EditPost implements OnInit, OnDestroy {
   // injecti
-  private _router = inject(Router);
-  private _route = inject(ActivatedRoute);
   private _fb = inject(FormBuilder);
   private _store = inject(Store);
 
   public form: FormGroup;
   public post: Posts;
-  public postId: number;
   public postSubscription: Subscription;
 
   ngOnInit(): void {
@@ -44,16 +41,11 @@ export class EditPost implements OnInit, OnDestroy {
   }
 
   fetchEditDetail() {
-    // get post id
-    this._route.paramMap.subscribe((params) => {
-      this.postId = Number(params.get('id'));
-
-      this.postSubscription = this._store.select(selectPostById(this.postId)).subscribe((data) => {
-        if (!data) return;
-
-        this.post = data;
-        this.setFormValue();
-      });
+    this.postSubscription = this._store.select(selectPostById()).subscribe((post) => {
+      console.log(post, 'data routerstate');
+      if (!post) return;
+      this.post = post;
+      this.setFormValue();
     });
   }
 
@@ -69,12 +61,11 @@ export class EditPost implements OnInit, OnDestroy {
       return;
     }
 
-    console.log(this.form.value);
     const title = this.form.value.title;
     const description = this.form.value.description;
 
     const post: Posts = {
-      id: this.postId,
+      id: this.post.id,
       title: title,
       body: description,
       userId: this.post.userId,
@@ -82,6 +73,5 @@ export class EditPost implements OnInit, OnDestroy {
 
     // dispatch the action for update
     this._store.dispatch(updatePostAction({ post }));
-    this._router.navigate(['posts']);
   }
 }
