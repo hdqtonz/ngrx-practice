@@ -11,12 +11,14 @@ import {
   updatePostAction,
   updatePostSuccessAction,
 } from './posts.action';
-import { filter, map, mergeMap, switchMap } from 'rxjs';
+import { filter, map, mergeMap, of, switchMap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { ROUTER_NAVIGATION, RouterNavigatedAction } from '@ngrx/router-store';
 import { Update } from '@ngrx/entity';
 import { Posts } from '../../models/posts.model';
+import { selectPostById, selectPosts } from './posts.selectors';
+import { dummyAction } from '../../auth/state/auth.actions';
 
 @Injectable()
 export class postsEffects {
@@ -28,7 +30,11 @@ export class postsEffects {
   loadPost$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadPostAction),
-      mergeMap((action) => {
+      withLatestFrom(this._store.select(selectPosts)),
+      mergeMap(([action, posts]) => {
+        if (posts.length && posts.length > 1) {
+          return of(dummyAction());
+        }
         return this.postService.fetchPosts().pipe(
           map((posts) => {
             console.log(posts, 'posts effect');
@@ -110,7 +116,11 @@ export class postsEffects {
       map((r: RouterNavigatedAction) => {
         return r.payload.routerState['params']['id'];
       }),
-      switchMap((id) => {
+      withLatestFrom(this._store.select(selectPosts)),
+      switchMap(([id, posts]) => {
+        if (posts.length) {
+          return of(dummyAction());
+        }
         return this.postService.fetchPostById(id).pipe(
           map((post) => {
             const postData = [{ ...post, id }];

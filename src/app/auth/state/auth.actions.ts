@@ -29,3 +29,4 @@ export const signupSuccessAction = createAction(SIGNUP_SUCCESS, props<{ register
 
 export const autoLoginAction = createAction(AUTO_LOGIN_ACTION);
 export const autoLogoutAction = createAction(LOGOU_ACTION);
+export const dummyAction = createAction('[dummy action] dummy action');
