@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../_store/app.state';
 import { Observable } from 'rxjs';
 import { Posts } from '../../models/posts.model';
-import { selectPosts } from '../state/posts.selectors';
+import { selectPostCount, selectPosts } from '../state/posts.selectors';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { deletePostAction, loadPostAction } from '../state/posts.action';
@@ -20,10 +20,12 @@ export class PostsList implements OnInit {
 
   // var
   public posts$: Observable<Posts[]>;
+  public count$: Observable<number>;
 
   ngOnInit(): void {
     this._store.dispatch(loadPostAction());
     this.posts$ = this._store.select(selectPosts);
+    this.count$ = this._store.select(selectPostCount);
   }
 
   onDeletePost(id: number) {

@@ -10,16 +10,19 @@ import {
 const _postsReducer = createReducer(
   initialState,
   on(addPostSuccessAction, (state, action) => {
-    return postsAdapter.addOne(action.post, state);
+    return postsAdapter.addOne(action.post, { ...state, count: state.count + 1 });
   }),
   on(updatePostSuccessAction, (state, action) => {
     return postsAdapter.updateOne(action.post, state);
   }),
   on(deletePostSuccessAction, (state, { id }) => {
-    return postsAdapter.removeOne(id, state);
+    return postsAdapter.removeOne(id, { ...state, count: state.count - 1 });
   }),
   on(loadPostSuccessAction, (state, action) => {
-    return postsAdapter.setAll(action.posts, state);
+    return postsAdapter.setAll(action.posts, {
+      ...state,
+      count: state.count + action.posts.length,
+    });
   }),
 );
 

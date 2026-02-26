@@ -17,3 +17,5 @@ export const selectPostById = () => {
     return posts ? posts[id] : null;
   });
 };
+
+export const selectPostCount = createSelector(selectPostsState, (state) => state.count);
